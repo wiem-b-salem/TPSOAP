@@ -5,6 +5,7 @@ xmlns="http://schemas.xmlsoap.org/wsdl/"
 xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 xmlns:tns="http://example.com/calculator"
 xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
 <!-- Types de données -->
 <types>
 <xsd:schema targetNamespace="http://example.com/calculator">
@@ -23,17 +24,52 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 </xsd:sequence>
 </xsd:complexType>
 </xsd:element>
+<xsd:element name="CelsiusRequest">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="celsius" type="xsd:float"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="FahrenheitRequest">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="fahrenheit" type="xsd:float"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="TemperatureResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="result" type="xsd:float"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
 </xsd:schema>
 </types>
-<!-- Messages -->
+
+<!-- Messages Calculator -->
 <message name="CalculatorInput">
 <part name="parameters" element="tns:CalculatorRequest"/>
 </message>
 <message name="CalculatorOutput">
 <part name="parameters" element="tns:CalculatorResponse"/>
 </message>
-<!-- Port Type (Interface) -->
-<portType name="CalculatorPortType">
+
+<!-- Messages Temperature -->
+<message name="TempCelsiusInput">
+<part name="parameters" element="tns:CelsiusRequest"/>
+</message>
+<message name="TempFahrenheitInput">
+<part name="parameters" element="tns:FahrenheitRequest"/>
+</message>
+<message name="TemperatureOutput">
+<part name="parameters" element="tns:TemperatureResponse"/>
+</message>
+
+<!-- Port Type (Combined Service) -->
+<portType name="ServicePortType">
+<!-- Calculator Operations -->
 <operation name="Add">
 <input message="tns:CalculatorInput"/>
 <output message="tns:CalculatorOutput"/>
@@ -51,18 +87,32 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <output message="tns:CalculatorOutput"/>
 </operation>
 <operation name="Modulo">
-  <input message="tns:CalculatorInput"/>
-  <output message="tns:CalculatorOutput"/>
+<input message="tns:CalculatorInput"/>
+<output message="tns:CalculatorOutput"/>
 </operation>
 <operation name="Power">
-  <input message="tns:CalculatorInput"/>
-  <output message="tns:CalculatorOutput"/>
+<input message="tns:CalculatorInput"/>
+<output message="tns:CalculatorOutput"/>
+</operation>
+<!-- Temperature Operations -->
+<operation name="CelsiusToFahrenheit">
+<input message="tns:TempCelsiusInput"/>
+<output message="tns:TemperatureOutput"/>
+</operation>
+<operation name="FahrenheitToCelsius">
+<input message="tns:TempFahrenheitInput"/>
+<output message="tns:TemperatureOutput"/>
+</operation>
+<operation name="CelsiusToKelvin">
+<input message="tns:TempCelsiusInput"/>
+<output message="tns:TemperatureOutput"/>
 </operation>
 </portType>
-<!-- Binding -->
-<binding name="CalculatorBinding" type="tns:CalculatorPortType">
-<soap:binding style="document"
-transport="http://schemas.xmlsoap.org/soap/http"/>
+
+<!-- Binding (Combined Service) -->
+<binding name="ServiceBinding" type="tns:ServicePortType">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<!-- Calculator Operations -->
 <operation name="Add">
 <soap:operation soapAction="Add"/>
 <input><soap:body use="literal"/></input>
@@ -84,20 +134,38 @@ transport="http://schemas.xmlsoap.org/soap/http"/>
 <output><soap:body use="literal"/></output>
 </operation>
 <operation name="Modulo">
-  <soap:operation soapAction="Modulo"/>
-  <input><soap:body use="literal"/></input>
-  <output><soap:body use="literal"/></output>
+<soap:operation soapAction="Modulo"/>
+<input><soap:body use="literal"/></input>
+<output><soap:body use="literal"/></output>
 </operation>
 <operation name="Power">
-  <soap:operation soapAction="Power"/>
-  <input><soap:body use="literal"/></input>
-  <output><soap:body use="literal"/></output>
+<soap:operation soapAction="Power"/>
+<input><soap:body use="literal"/></input>
+<output><soap:body use="literal"/></output>
+</operation>
+<!-- Temperature Operations -->
+<operation name="CelsiusToFahrenheit">
+<soap:operation soapAction="CelsiusToFahrenheit"/>
+<input><soap:body use="literal"/></input>
+<output><soap:body use="literal"/></output>
+</operation>
+<operation name="FahrenheitToCelsius">
+<soap:operation soapAction="FahrenheitToCelsius"/>
+<input><soap:body use="literal"/></input>
+<output><soap:body use="literal"/></output>
+</operation>
+<operation name="CelsiusToKelvin">
+<soap:operation soapAction="CelsiusToKelvin"/>
+<input><soap:body use="literal"/></input>
+<output><soap:body use="literal"/></output>
 </operation>
 </binding>
+
 <!-- Service -->
-<service name="CalculatorService">
-<port name="CalculatorPort" binding="tns:CalculatorBinding">
-<soap:address location="http://localhost:8000/calculator"/>
+<service name="UtilityService">
+<port name="ServicePort" binding="tns:ServiceBinding">
+<soap:address location="http://localhost:8000/soap"/>
 </port>
 </service>
+
 </definitions>

@@ -1,12 +1,12 @@
 const soap = require('soap');
-const WSDL_URL = 'http://localhost:8000/calculator?wsdl';
+const WSDL_URL = 'http://localhost:8000/soap?wsdl';
 async function main() {
 try {
 // Créer le client SOAP
 const client = await soap.createClientAsync(WSDL_URL);
 console.log('✅ Client SOAP connecté !');
 console.log('🚀 Opérations disponibles:',
-Object.keys(client.CalculatorService.CalculatorPort));
+Object.keys(client.UtilityService.ServicePort));
 console.log('\n--- Tests des opérations ---\n');
 // Test Addition
 const addResult = await client.AddAsync({ a: 10, b: 5 });
@@ -20,6 +20,9 @@ console.log(`Power: 2^3 = ${powResult[0].result}`);
 // Test Soustraction
 const subResult = await client.SubtractAsync({ a: 10, b: 3 });
 console.log(`Soustraction: 10 - 3 = ${subResult[0].result}`);
+//test temp
+const tempResult = await client.CelsiusToFahrenheitAsync({ celsius: 25 });
+console.log(`25°C = ${tempResult[0].result}°F`);
 // Test Multiplication
 const mulResult = await client.MultiplyAsync({ a: 4, b: 7 });
 console.log(`Multiplication: 4 × 7 = ${mulResult[0].result}`);
