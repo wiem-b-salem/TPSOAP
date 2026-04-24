@@ -23,6 +23,12 @@ console.log(`Soustraction: 10 - 3 = ${subResult[0].result}`);
 //test temp
 const tempResult = await client.CelsiusToFahrenheitAsync({ celsius: 25 });
 console.log(`25°C = ${tempResult[0].result}°F`);
+// Test FahrenheitToCelsius
+const fahToCelResult = await client.FahrenheitToCelsiusAsync({ fahrenheit: 77 });
+console.log(`77°F = ${fahToCelResult[0].result}°C`);
+// Test CelsiusToKelvin
+const celToKelResult = await client.CelsiusToKelvinAsync({ celsius: 25 });
+console.log(`25°C = ${celToKelResult[0].result}K`);
 // Test Multiplication
 const mulResult = await client.MultiplyAsync({ a: 4, b: 7 });
 console.log(`Multiplication: 4 × 7 = ${mulResult[0].result}`);
