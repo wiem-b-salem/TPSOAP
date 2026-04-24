@@ -43,6 +43,22 @@ return { result: result };
 Modulo: function(args) {
   const result = parseFloat(args.a) % parseFloat(args.b);
   return { result };
+},
+Power: function(args) {
+  const a = parseFloat(args.a);
+  const b = parseFloat(args.b);
+
+  if (isNaN(a) || isNaN(b)) {
+    throw {
+      Fault: {
+        Code: { Value: 'INVALID_INPUT' },
+        Reason: { Text: 'Invalid numbers' }
+      }
+    };
+  }
+
+  const result = Math.pow(a, b);
+  return { result };
 }
 }
 }
