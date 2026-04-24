@@ -11,6 +11,9 @@ console.log('\n--- Tests des opérations ---\n');
 // Test Addition
 const addResult = await client.AddAsync({ a: 10, b: 5 });
 console.log(`Addition: 10 + 5 = ${addResult[0].result}`);
+// Test Modulo
+const modResult = await client.ModuloAsync({ a: 10, b: 3 });
+console.log(`Modulo: 10 % 3 = ${modResult[0].result}`);
 // Test Soustraction
 const subResult = await client.SubtractAsync({ a: 10, b: 3 });
 console.log(`Soustraction: 10 - 3 = ${subResult[0].result}`);

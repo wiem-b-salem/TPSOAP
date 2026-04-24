@@ -39,6 +39,10 @@ Reason: { Text: 'Division par zéro impossible' }
 const result = parseFloat(args.a) / parseFloat(args.b);
 console.log(`Divide: ${args.a} / ${args.b} = ${result}`);
 return { result: result };
+},
+Modulo: function(args) {
+  const result = parseFloat(args.a) % parseFloat(args.b);
+  return { result };
 }
 }
 }
